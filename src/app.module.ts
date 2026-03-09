@@ -8,6 +8,7 @@ import { User } from './modules/users/entities/user.entity';
 import { SellerProfile } from './modules/sellers/entities/seller.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductEntity } from './modules/products/entities/product.entity';
+import { AddressModule } from './modules/address/address.module';
 
 @Module({
   imports: [
@@ -24,7 +25,8 @@ import { ProductEntity } from './modules/products/entities/product.entity';
     }),
     UsersModule,
     AuthModule,
-    ProductsModule, 
+    ProductsModule,
+    AddressModule, 
 
   ],
   controllers: [AppController],

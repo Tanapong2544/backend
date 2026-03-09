@@ -1,9 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { SellerProfile } from 'src/modules/sellers/entities/seller.entity';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 export enum UserRole {
-  USER = 'user', 
-  ADMIN = 'admin',  
-  SELLER = 'seller', 
+  USER = 'user',
+  ADMIN = 'admin',
+  SELLER = 'seller',
 }
 
 @Entity('users')
@@ -14,7 +23,7 @@ export class User {
   @Column({ unique: true })
   username: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({
@@ -36,7 +45,6 @@ export class User {
   @CreateDateColumn()
   createdAt: Date;
 
-  // ความสัมพันธ์กับ Seller Profile (ถ้ามี)
-  // @OneToOne(() => SellerProfile, (sellerProfile) => sellerProfile.user)
-  // sellerProfile: SellerProfile;
+  @Column({ type: 'int', default: 1 })
+  isActive: number;
 }

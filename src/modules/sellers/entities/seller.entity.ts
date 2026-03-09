@@ -1,5 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  OneToMany,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
+import { ProductEntity } from '../../products/entities/product.entity';
 
 @Entity('seller')
 export class SellerProfile {
@@ -15,10 +23,16 @@ export class SellerProfile {
   @Column()
   phone: string;
 
-//   @OneToOne(() => User, (user) => user.sellerProfile, { onDelete: 'CASCADE' })
-//   @JoinColumn({ name: 'user_id' }) 
-//   user: User;
+  @OneToOne(() => User, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'userId' })
+  user: User;
 
-//   @Column()
-//   userId: number;
+  @Column()
+  userId: number;
+
+  @Column({ type: 'int', default: 1 })
+  isActive: number;
+
+  @OneToMany(() => ProductEntity, (product) => product.seller)
+  products: ProductEntity[];
 }

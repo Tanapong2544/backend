@@ -1,27 +1,36 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne } from 'typeorm';
-import { User } from '../../users/entities/user.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import { SellerProfile } from '../../sellers/entities/seller.entity'
 
-@Entity('products')
+@Entity('product')
 export class ProductEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column({ nullable: true })
+  image: string;
+
   @Column()
   name: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ nullable: true })
   description: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
-  price: number;
-
-  @Column({ default: 0 })
+  @Column('int')
   stock: number;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column('decimal', { precision: 10, scale: 2 })
+  price: number;
 
-  // เชื่อมความสัมพันธ์ว่า Product นี้ใครเป็นคนลง (ถ้าต้องการ)
-  //@ManyToOne(() => User, (user) => user.id)
-  //createdBy: User;
+  @Column()
+  category: string;
+
+  @Column({ default: 'active' })
+  status: string;
+
+  @Column()
+  sellerId: number;
+
+  @ManyToOne(() => SellerProfile, (seller) => seller.products, { onDelete: 'CASCADE' })
+  @JoinColumn({ name: 'sellerId' }) 
+  seller: SellerProfile;
 }

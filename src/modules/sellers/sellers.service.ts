@@ -1,26 +1,40 @@
 import { Injectable } from '@nestjs/common';
 import { CreateSellerDto } from './dto/create-seller.dto';
 import { UpdateSellerDto } from './dto/update-seller.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { SellerProfile } from './entities/seller.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class SellersService {
-  create(createSellerDto: CreateSellerDto) {
-    return 'This action adds a new seller';
+  constructor(
+    @InjectRepository(SellerProfile)
+    private sellerRepository: Repository<SellerProfile>,
+  ) {}
+
+  async create(data: {
+    userId: number;
+    firstName: string;
+    lastName: string;
+    phone: string;
+  }) {
+    const seller = this.sellerRepository.create(data);
+    return await this.sellerRepository.save(seller);
   }
 
-  findAll() {
-    return `This action returns all sellers`;
+  async findAll() {
+    return await this.sellerRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} seller`;
-  }
+  async findOne(id: number) {
+    const seller = await this.sellerRepository.findOne({
+      where: { id },
+      relations: ['user'],
+    });
 
-  update(id: number, updateSellerDto: UpdateSellerDto) {
-    return `This action updates a #${id} seller`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} seller`;
+    if (!seller) {
+      return `ไม่พบ Seller ที่มี ID: ${id}`;
+    }
+    return seller;
   }
 }
