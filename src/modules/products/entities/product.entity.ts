@@ -24,7 +24,7 @@ export class ProductEntity {
   @Column()
   category: string;
 
-  @Column({ default: 'active' })
+  @Column({ default: 'pending' })
   status: string;
 
   @Column()

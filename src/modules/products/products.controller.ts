@@ -11,12 +11,15 @@ import {
   HttpStatus,
   Req,
   UseGuards,
+  Patch,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { ProductsService } from './products.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { RolesGuard } from '../auth/roles.guard';
+import { Roles } from '../auth/roles.decorator';
 
 @Controller('products')
 export class ProductsController {
@@ -66,13 +69,35 @@ export class ProductsController {
   }
 
   @Get('all')
-  findAll() {
-    return this.productsService.findAll();
+  findAllApproved() {
+    return this.productsService.findAllByStatus('approved');
+  }
+
+  @Roles('admin')
+  @Get('admin/pending')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  findPending() {
+    return this.productsService.findAllByStatus('pending');
+  }
+
+  @Roles('admin')
+  @Patch('admin/:id/approve')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  approveProduct(@Param('id') id: number) {
+    return this.productsService.updateStatus(id, 'approved');
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.OK)
   async remove(@Param('id') id: string) {
     return await this.productsService.remove(+id);
+  }
+
+  @Roles('admin')
+  @Patch('admin/:id/reject')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  @HttpCode(HttpStatus.OK)
+  async reject(@Param('id') id: string) {
+    return await this.productsService.rejectProduct(+id);
   }
 }

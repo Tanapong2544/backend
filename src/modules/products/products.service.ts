@@ -53,6 +53,17 @@ export class ProductsService {
     });
   }
 
+  async findAllByStatus(status: string) {
+    return await this.productRepository.find({
+      where: { status: status },
+      relations: ['seller'],
+    });
+  }
+
+  async updateStatus(id: number, status: string) {
+    return await this.productRepository.update(id, { status });
+  }
+
   async remove(id: number) {
     const product = await this.productRepository.findOne({ where: { id } });
     if (!product) {
@@ -71,4 +82,8 @@ export class ProductsService {
     await this.productRepository.remove(product);
     return { success: true, message: 'ลบสินค้าและรูปภาพเรียบร้อยแล้ว' };
   }
+
+  async rejectProduct(id: number) {
+  return await this.productRepository.update(id, { status: 'rejected' });
+}
 }

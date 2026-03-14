@@ -9,6 +9,9 @@ import { SellerProfile } from './modules/sellers/entities/seller.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductEntity } from './modules/products/entities/product.entity';
 import { AddressModule } from './modules/address/address.module';
+import { CartModule } from './modules/cart/cart.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 
 @Module({
   imports: [
@@ -26,7 +29,10 @@ import { AddressModule } from './modules/address/address.module';
     UsersModule,
     AuthModule,
     ProductsModule,
-    AddressModule, 
+    AddressModule,
+    CartModule,
+    OrdersModule,
+    PaymentsModule, 
 
   ],
   controllers: [AppController],
