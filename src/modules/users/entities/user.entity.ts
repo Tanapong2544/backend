@@ -1,3 +1,4 @@
+import { Order } from 'src/modules/orders/entities/order.entity';
 import { SellerProfile } from 'src/modules/sellers/entities/seller.entity';
 import {
   Entity,
@@ -7,6 +8,7 @@ import {
   UpdateDateColumn,
   OneToOne,
   JoinColumn,
+  OneToMany,
 } from 'typeorm';
 
 export enum UserRole {
@@ -47,4 +49,7 @@ export class User {
 
   @Column({ type: 'int', default: 1 })
   isActive: number;
+
+  @OneToMany(() => Order, (order) => order.user)
+  orders: Order[];
 }

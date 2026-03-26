@@ -1,5 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { SellerProfile } from '../../sellers/entities/seller.entity'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { SellerProfile } from '../../sellers/entities/seller.entity';
 
 @Entity('product')
 export class ProductEntity {
@@ -24,13 +30,15 @@ export class ProductEntity {
   @Column()
   category: string;
 
-  @Column({ default: 'active' })
+  @Column({ default: 'pending' })
   status: string;
 
   @Column()
   sellerId: number;
 
-  @ManyToOne(() => SellerProfile, (seller) => seller.products, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'sellerId' }) 
+  @ManyToOne(() => SellerProfile, (seller) => seller.products, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'sellerId' })
   seller: SellerProfile;
 }

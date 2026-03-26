@@ -9,6 +9,9 @@ import { SellerProfile } from './modules/sellers/entities/seller.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProductEntity } from './modules/products/entities/product.entity';
 import { AddressModule } from './modules/address/address.module';
+import { OrdersModule } from './modules/orders/orders.module';
+import { OrderItem } from './modules/orders/entities/order-item.entity';
+import { Order } from './modules/orders/entities/order.entity';
 
 @Module({
   imports: [
@@ -16,18 +19,18 @@ import { AddressModule } from './modules/address/address.module';
       type: 'postgres',
       host: 'localhost',
       port: 5432,
-      username: 'postgres', 
-      password: '250744', 
+      username: 'postgres',
+      password: '39391553',
       database: 'project',
-      entities: [User, SellerProfile, ProductEntity],
+      entities: [User, SellerProfile, ProductEntity, OrderItem, Order],
       autoLoadEntities: true,
-      synchronize: true, 
+      synchronize: true,
     }),
     UsersModule,
     AuthModule,
     ProductsModule,
-    AddressModule, 
-
+    AddressModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],

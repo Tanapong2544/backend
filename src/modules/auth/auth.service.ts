@@ -78,9 +78,11 @@ export class AuthService {
     }
 
     const payload = {
-      sub: user.id,
-      username: user.username,
-      role: user.role,
+      sub: user.id, // ID ของผู้ใช้
+      username: user.username, // ชื่อผู้ใช้
+      role: user.role, // สิทธิ์การใช้งาน
+      firstName: user.firstName,
+      lastName: user.lastName,
     };
 
     return {

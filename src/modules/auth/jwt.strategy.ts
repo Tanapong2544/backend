@@ -17,6 +17,8 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
       userId: payload.sub,
       username: payload.username,
       role: payload.role,
+      firstName: payload.firstName, // ต้องแน่ใจว่าตอน login ใส่ค่านี้ลงไปใน token
+      lastName: payload.lastName, // ต้องแน่ใจว่าตอน login ใส่ค่านี้ลงไปใน token
     };
   }
 }
